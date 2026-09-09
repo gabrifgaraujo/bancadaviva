@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-paper: #f4f1ea;
+  --color-paper-2: #ebe6db;
+  --color-ink: #1a1916;
+  --color-ink-soft: #3f3c36;
+  --color-muted: #6f6a62;
+  --color-border: #d8d1c4;
+  --color-pine: #2f4a42;
+  --color-pine-2: #3d5c52;
+  --color-card: #fffaf2;
+  --color-primary-foreground: #f4f1ea;
+  --color-secondary: #ebe6db;
+  --color-destructive: #8a3a32;
+  --color-warn: #b45309;
+  --color-ok: #3f6b4e;
+  --color-wait: #4a6670;
+  --color-hold: #5c6b58;
+}
+
+html.dark {
+  --color-paper: #121411;
+  --color-paper-2: #1b1e1a;
+  --color-ink: #efece4;
+  --color-ink-soft: #d4cfc4;
+  --color-muted: #9a958b;
+  --color-border: #2c322e;
+  --color-pine: #8fa396;
+  --color-pine-2: #a8b9ae;
+  --color-card: #1a1d19;
+  --color-primary-foreground: #121411;
+  --color-secondary: #1b1e1a;
+  --color-warn: #e0a15a;
+  --color-ok: #8fbf9a;
+  --color-wait: #8aa3ad;
+  --color-hold: #a3b39c;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+
+h1, h2, h3 {
+  font-family: theme(fontFamily.display);
+  text-wrap: balance;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

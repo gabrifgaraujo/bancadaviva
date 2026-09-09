@@ -1,0 +1,28 @@
+import { api } from "./api";
+import type { RegistroProgresso, TipoRegistro } from "../types";
+
+export const progressoService = {
+  async listar(uuidServico: string): Promise<RegistroProgresso[]> {
+    const { data } = await api.get<RegistroProgresso[]>(`/servicos/${uuidServico}/progresso`);
+    return data;
+  },
+
+  async adicionarNota(uuidServico: string, texto: string): Promise<RegistroProgresso> {
+    const { data } = await api.post<RegistroProgresso>(`/servicos/${uuidServico}/progresso`, {
+      tipo: "nota",
+      texto,
+    });
+    return data;
+  },
+
+  async adicionarArquivo(uuidServico: string, tipo: TipoRegistro, arquivo: File): Promise<RegistroProgresso> {
+    const formData = new FormData();
+    formData.append("tipo", tipo);
+    formData.append("arquivo", arquivo);
+
+    const { data } = await api.post<RegistroProgresso>(`/servicos/${uuidServico}/progresso`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+    return data;
+  },
+};
