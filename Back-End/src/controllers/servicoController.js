@@ -14,6 +14,7 @@ function serializarServico(servico) {
     fotoCapaUrl: servico.foto_capa_url,
     checklist: servico.checklist,
     ultimaNota: servico.ultima_nota,
+    valor: servico.valor !== null && servico.valor !== undefined ? Number(servico.valor) : null,
     criadoEm: servico.createdAt,
     atualizadoEm: servico.updatedAt,
   };
@@ -43,7 +44,7 @@ const listar = asyncHandler(async (req, res) => {
 
 // POST /servicos
 const criar = asyncHandler(async (req, res) => {
-  const { titulo, nomeCliente, contatoCliente, categoria, fotoCapaUrl } = req.body;
+  const { titulo, nomeCliente, contatoCliente, categoria, fotoCapaUrl, valor } = req.body;
 
   const servico = await Servico.create({
     titulo,
@@ -51,6 +52,7 @@ const criar = asyncHandler(async (req, res) => {
     contato_cliente: contatoCliente,
     categoria,
     foto_capa_url: fotoCapaUrl,
+    valor: valor || null,
     usuario_id: req.user.id_usuario,
   });
 
@@ -65,7 +67,7 @@ const detalhar = asyncHandler(async (req, res) => {
   if (!servico) throw new AppError("Serviço não encontrado.", 404);
 
   const registros = await RegistroProgresso.findAll({
-    where: { servico_id: servico.id },
+    where: { servico_id: servico.id, deletado_em: null },
     order: [["created_at", "DESC"]],
     limit: 30,
   });
@@ -80,7 +82,8 @@ const atualizar = asyncHandler(async (req, res) => {
   });
   if (!servico) throw new AppError("Serviço não encontrado.", 404);
 
-  const { titulo, nomeCliente, contatoCliente, categoria, status, fotoCapaUrl, checklist, ultimaNota } = req.body;
+  const { titulo, nomeCliente, contatoCliente, categoria, status, fotoCapaUrl, checklist, ultimaNota, valor } =
+    req.body;
 
   if (titulo !== undefined) servico.titulo = titulo;
   if (nomeCliente !== undefined) servico.nome_cliente = nomeCliente;
@@ -90,6 +93,7 @@ const atualizar = asyncHandler(async (req, res) => {
   if (fotoCapaUrl !== undefined) servico.foto_capa_url = fotoCapaUrl;
   if (checklist !== undefined) servico.checklist = checklist;
   if (ultimaNota !== undefined) servico.ultima_nota = ultimaNota;
+  if (valor !== undefined) servico.valor = valor === "" ? null : valor;
 
   await servico.save();
   return res.json(serializarServico(servico));

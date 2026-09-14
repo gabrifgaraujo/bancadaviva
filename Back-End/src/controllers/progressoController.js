@@ -1,7 +1,8 @@
-const { Servico, RegistroProgresso } = require("../models");
+const { RegistroProgresso } = require("../models");
 const cloudinary = require("../config/cloudinary");
 const AppError = require("../utils/AppError");
 const asyncHandler = require("../utils/asyncHandler");
+const { buscarServicoDoUsuario } = require("../utils/buscarServicoDoUsuario");
 
 function serializarRegistro(registro) {
   return {
@@ -23,12 +24,13 @@ function uploadParaCloudinary(buffer, resourceType) {
   });
 }
 
-async function buscarServicoDoUsuario(req) {
-  const servico = await Servico.findOne({
-    where: { uuid: req.params.uuidServico, usuario_id: req.user.id_usuario, deletado_em: null },
+async function buscarRegistroDoServico(req) {
+  const servico = await buscarServicoDoUsuario(req);
+  const registro = await RegistroProgresso.findOne({
+    where: { uuid: req.params.uuidRegistro, servico_id: servico.id, deletado_em: null },
   });
-  if (!servico) throw new AppError("Serviço não encontrado.", 404);
-  return servico;
+  if (!registro) throw new AppError("Registro não encontrado.", 404);
+  return { servico, registro };
 }
 
 // GET /servicos/:uuidServico/progresso
@@ -36,7 +38,7 @@ const listar = asyncHandler(async (req, res) => {
   const servico = await buscarServicoDoUsuario(req);
 
   const registros = await RegistroProgresso.findAll({
-    where: { servico_id: servico.id },
+    where: { servico_id: servico.id, deletado_em: null },
     order: [["created_at", "DESC"]],
   });
 
@@ -82,4 +84,30 @@ const criar = asyncHandler(async (req, res) => {
   return res.status(201).json(serializarRegistro(registro));
 });
 
-module.exports = { listar, criar };
+// PATCH /servicos/:uuidServico/progresso/:uuidRegistro — só o texto/legenda é editável.
+const atualizar = asyncHandler(async (req, res) => {
+  const { registro } = await buscarRegistroDoServico(req);
+  const { texto } = req.body;
+
+  if (registro.tipo === "nota" && (!texto || !texto.trim())) {
+    throw new AppError("Nota não pode ficar vazia.", 400);
+  }
+
+  registro.texto = texto ?? null;
+  await registro.save();
+
+  return res.json(serializarRegistro(registro));
+});
+
+// DELETE /servicos/:uuidServico/progresso/:uuidRegistro — soft delete.
+const remover = asyncHandler(async (req, res) => {
+  const { registro } = await buscarRegistroDoServico(req);
+
+  registro.deletado_em = new Date();
+  registro.deletado_por = String(req.user.id_usuario);
+  await registro.save();
+
+  return res.status(204).send();
+});
+
+module.exports = { listar, criar, atualizar, remover };

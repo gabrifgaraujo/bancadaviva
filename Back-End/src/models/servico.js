@@ -33,6 +33,7 @@ module.exports = (sequelize, DataTypes) => {
       foto_capa_url: { type: DataTypes.STRING, allowNull: true },
       checklist: { type: DataTypes.JSONB, allowNull: false, defaultValue: [] },
       ultima_nota: { type: DataTypes.TEXT, allowNull: true },
+      valor: { type: DataTypes.DECIMAL(10, 2), allowNull: true },
       usuario_id: { type: DataTypes.INTEGER, allowNull: false },
       deletado_em: { type: DataTypes.DATE, allowNull: true },
       deletado_por: { type: DataTypes.STRING, allowNull: true },

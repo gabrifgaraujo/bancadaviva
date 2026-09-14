@@ -6,7 +6,7 @@ Sistema de organização visual de serviços pra técnicos de manutenção autô
 
 ## Stack
 
-**Backend** — Node.js · Express · PostgreSQL · Sequelize · JWT · Cloudinary · Brevo · Docker
+**Backend** — Node.js · Express · PostgreSQL · Sequelize · JWT · Cloudinary · Brevo · Groq (IA) · Docker
 
 **Frontend** — React 19 · TypeScript · Vite · React Router · TailwindCSS · Context API
 
@@ -45,16 +45,18 @@ Ver instruções específicas em [`Back-End/README.md`](./Back-End/README.md) e 
 
 - [x] Cadastro, login e recuperação de senha (código por email via Brevo)
 - [x] Board de serviços agrupado por status, com busca e filtro
-- [x] Criar serviço com categoria (ícone) e checklist padrão
-- [x] Detalhe do serviço: mudar status, marcar checklist, registrar progresso (foto/nota)
-- [x] Histórico de progresso por serviço
+- [x] Criar serviço com categoria (ícone), valor e checklist (padrão ou sugerido por IA)
+- [x] Detalhe do serviço: mudar status, checklist (marcar/adicionar/remover), valor editável
+- [x] Registrar progresso (foto/nota), editar ou excluir cada registro
+- [x] Resumo do histórico por IA (Groq, opcional)
+- [x] Painel: métricas, distribuição por status, heatmap de atividade, alerta de serviço parado
 - [x] Soft delete (nenhum dado é apagado de verdade)
 
 ## Roadmap
 
 **Fase 2** — gravação de áudio como registro de progresso, PWA instalável, cache offline básico.
 
-**Fase 3** — dashboard (serviços parados há muito tempo, tempo médio por categoria), backup/exportação, tema claro/escuro refinado.
+**Fase 3** — link público pro cliente acompanhar status sem login, backup/exportação, tema claro/escuro refinado.
 
 ## Licença
 

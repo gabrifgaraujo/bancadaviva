@@ -23,6 +23,8 @@ module.exports = (sequelize, DataTypes) => {
       midia_url: { type: DataTypes.STRING, allowNull: true },
       texto: { type: DataTypes.TEXT, allowNull: true },
       servico_id: { type: DataTypes.INTEGER, allowNull: false },
+      deletado_em: { type: DataTypes.DATE, allowNull: true },
+      deletado_por: { type: DataTypes.STRING, allowNull: true },
     },
     {
       sequelize,

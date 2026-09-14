@@ -7,6 +7,7 @@ import { Login } from "./Pages/Login";
 import { Board } from "./Pages/Board";
 import { NovoServico } from "./Pages/NovoServico";
 import { DetalheServico } from "./Pages/DetalheServico";
+import { Painel } from "./Pages/Painel";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
           <Route element={<ProtectedRoute />}>
             <Route element={<LayoutHome />}>
               <Route path="/" element={<Board />} />
+              <Route path="/painel" element={<Painel />} />
               <Route path="/servicos/novo" element={<NovoServico />} />
               <Route path="/servicos/:uuid" element={<DetalheServico />} />
             </Route>

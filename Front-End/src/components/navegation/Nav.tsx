@@ -1,4 +1,4 @@
-import { Plus, LogOut, Moon, Sun } from "lucide-react";
+import { Plus, LogOut, Moon, Sun, LayoutDashboard } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
@@ -34,6 +34,11 @@ export function Nav() {
         </Link>
 
         <div className="flex items-center gap-1">
+          <Link to="/painel">
+            <Button variant="ghost" size="icon" aria-label="Painel">
+              <LayoutDashboard size={20} />
+            </Button>
+          </Link>
           <Button variant="ghost" size="icon" aria-label={escuro ? "Usar tema claro" : "Usar tema escuro"} onClick={alternarTema}>
             {escuro ? <Sun size={20} /> : <Moon size={20} />}
           </Button>

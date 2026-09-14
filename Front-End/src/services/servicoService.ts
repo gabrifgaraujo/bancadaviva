@@ -7,6 +7,8 @@ export interface NovoServicoPayload {
   contatoCliente?: string;
   categoria: CategoriaServico;
   fotoCapaUrl?: string;
+  checklist?: ItemChecklist[];
+  valor?: number;
 }
 
 export interface AtualizarServicoPayload {
@@ -18,6 +20,7 @@ export interface AtualizarServicoPayload {
   fotoCapaUrl?: string;
   checklist?: ItemChecklist[];
   ultimaNota?: string;
+  valor?: number | null;
 }
 
 export const servicoService = {

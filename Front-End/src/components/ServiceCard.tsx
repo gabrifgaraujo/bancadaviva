@@ -34,6 +34,7 @@ export function ServiceCard({ servico }: { servico: Servico }) {
         <h2 className="font-display text-lg font-medium leading-snug tracking-tight text-ink">{servico.titulo}</h2>
         <p className="text-sm text-muted">
           {servico.nomeCliente || "Sem cliente"} · {CATEGORIA_LABEL[servico.categoria]}
+          {servico.valor !== null && ` · ${servico.valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}`}
         </p>
         {servico.ultimaNota ? (
           <p className="line-clamp-2 text-sm leading-relaxed text-ink-soft">{servico.ultimaNota}</p>

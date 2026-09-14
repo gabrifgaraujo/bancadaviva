@@ -25,4 +25,16 @@ export const progressoService = {
     });
     return data;
   },
+
+  async atualizar(uuidServico: string, uuidRegistro: string, texto: string): Promise<RegistroProgresso> {
+    const { data } = await api.patch<RegistroProgresso>(
+      `/servicos/${uuidServico}/progresso/${uuidRegistro}`,
+      { texto }
+    );
+    return data;
+  },
+
+  async remover(uuidServico: string, uuidRegistro: string): Promise<void> {
+    await api.delete(`/servicos/${uuidServico}/progresso/${uuidRegistro}`);
+  },
 };

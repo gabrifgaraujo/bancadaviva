@@ -17,6 +17,7 @@ export interface Servico {
   fotoCapaUrl: string | null;
   checklist: ItemChecklist[];
   ultimaNota: string | null;
+  valor: number | null;
   criadoEm: string;
   atualizadoEm: string;
 }
@@ -39,4 +40,24 @@ export interface Usuario {
   uuid: string;
   nome: string;
   email: string;
+}
+
+export interface ServicoParado {
+  uuid: string;
+  titulo: string;
+  status: StatusServico;
+  diasParado: number;
+}
+
+export interface DiaHeatmap {
+  data: string; // "YYYY-MM-DD"
+  total: number;
+}
+
+export interface DashboardData {
+  contagemPorStatus: Record<StatusServico, number>;
+  clientesAtendidos: number;
+  faturamentoMes: number;
+  servicosParados: ServicoParado[];
+  heatmap: DiaHeatmap[];
 }
